@@ -31,7 +31,10 @@ Ip get_my_ip(const char* dev) {
     close(fd);
 
     struct sockaddr_in* addr = (struct sockaddr_in*)&ifr.ifr_addr;
-    return Ip(inet_ntoa(addr->sin_addr));
+    char ip_str[INET_ADDRSTRLEN];
+    inet_ntop(AF_INET, &addr->sin_addr, ip_str, sizeof(ip_str));
+
+    return Ip(ip_str);
 }
 
 Mac get_my_mac(const char* dev) {
